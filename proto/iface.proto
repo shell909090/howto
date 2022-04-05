@@ -15,3 +15,15 @@ message AddRequest {
 message AddResponse {
 	int32 n = 1;
 }
+
+service Range{
+    rpc Range (RangeRequest) returns (stream RangeResponse) {}
+}
+
+message RangeRequest {
+	int32 n = 1;
+}
+
+message RangeResponse {
+	int32 n = 1;
+}

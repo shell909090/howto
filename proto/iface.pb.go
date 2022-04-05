@@ -126,6 +126,100 @@ func (x *AddResponse) GetN() int32 {
 	return 0
 }
 
+type RangeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	N int32 `protobuf:"varint,1,opt,name=n,proto3" json:"n,omitempty"`
+}
+
+func (x *RangeRequest) Reset() {
+	*x = RangeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_iface_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RangeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RangeRequest) ProtoMessage() {}
+
+func (x *RangeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_iface_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RangeRequest.ProtoReflect.Descriptor instead.
+func (*RangeRequest) Descriptor() ([]byte, []int) {
+	return file_iface_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RangeRequest) GetN() int32 {
+	if x != nil {
+		return x.N
+	}
+	return 0
+}
+
+type RangeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	N int32 `protobuf:"varint,1,opt,name=n,proto3" json:"n,omitempty"`
+}
+
+func (x *RangeResponse) Reset() {
+	*x = RangeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_iface_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RangeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RangeResponse) ProtoMessage() {}
+
+func (x *RangeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_iface_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RangeResponse.ProtoReflect.Descriptor instead.
+func (*RangeResponse) Descriptor() ([]byte, []int) {
+	return file_iface_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *RangeResponse) GetN() int32 {
+	if x != nil {
+		return x.N
+	}
+	return 0
+}
+
 var File_iface_proto protoreflect.FileDescriptor
 
 var file_iface_proto_rawDesc = []byte{
@@ -134,11 +228,19 @@ var file_iface_proto_rawDesc = []byte{
 	0x73, 0x74, 0x12, 0x0c, 0x0a, 0x01, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x61,
 	0x12, 0x0c, 0x0a, 0x01, 0x62, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x62, 0x22, 0x1b,
 	0x0a, 0x0b, 0x41, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0c, 0x0a,
-	0x01, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x6e, 0x32, 0x35, 0x0a, 0x03, 0x41,
-	0x64, 0x64, 0x12, 0x2e, 0x0a, 0x03, 0x41, 0x64, 0x64, 0x12, 0x11, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2e, 0x41, 0x64, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x41, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x6e, 0x22, 0x1c, 0x0a, 0x0c, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0c, 0x0a, 0x01, 0x6e,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x6e, 0x22, 0x1d, 0x0a, 0x0d, 0x52, 0x61, 0x6e,
+	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0c, 0x0a, 0x01, 0x6e, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x6e, 0x32, 0x35, 0x0a, 0x03, 0x41, 0x64, 0x64, 0x12,
+	0x2e, 0x0a, 0x03, 0x41, 0x64, 0x64, 0x12, 0x11, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x41,
+	0x64, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2e, 0x41, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x32,
+	0x3f, 0x0a, 0x05, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x12, 0x36, 0x0a, 0x05, 0x52, 0x61, 0x6e, 0x67,
+	0x65, 0x12, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x30, 0x01,
+	0x42, 0x04, 0x5a, 0x02, 0x2e, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -153,16 +255,20 @@ func file_iface_proto_rawDescGZIP() []byte {
 	return file_iface_proto_rawDescData
 }
 
-var file_iface_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_iface_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_iface_proto_goTypes = []interface{}{
-	(*AddRequest)(nil),  // 0: proto.AddRequest
-	(*AddResponse)(nil), // 1: proto.AddResponse
+	(*AddRequest)(nil),    // 0: proto.AddRequest
+	(*AddResponse)(nil),   // 1: proto.AddResponse
+	(*RangeRequest)(nil),  // 2: proto.RangeRequest
+	(*RangeResponse)(nil), // 3: proto.RangeResponse
 }
 var file_iface_proto_depIdxs = []int32{
 	0, // 0: proto.Add.Add:input_type -> proto.AddRequest
-	1, // 1: proto.Add.Add:output_type -> proto.AddResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: proto.Range.Range:input_type -> proto.RangeRequest
+	1, // 2: proto.Add.Add:output_type -> proto.AddResponse
+	3, // 3: proto.Range.Range:output_type -> proto.RangeResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -198,6 +304,30 @@ func file_iface_proto_init() {
 				return nil
 			}
 		}
+		file_iface_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RangeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_iface_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RangeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -205,9 +335,9 @@ func file_iface_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_iface_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_iface_proto_goTypes,
 		DependencyIndexes: file_iface_proto_depIdxs,
@@ -296,5 +426,104 @@ var _Add_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
+	Metadata: "iface.proto",
+}
+
+// RangeClient is the client API for Range service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type RangeClient interface {
+	Range(ctx context.Context, in *RangeRequest, opts ...grpc.CallOption) (Range_RangeClient, error)
+}
+
+type rangeClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewRangeClient(cc grpc.ClientConnInterface) RangeClient {
+	return &rangeClient{cc}
+}
+
+func (c *rangeClient) Range(ctx context.Context, in *RangeRequest, opts ...grpc.CallOption) (Range_RangeClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Range_serviceDesc.Streams[0], "/proto.Range/Range", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &rangeRangeClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Range_RangeClient interface {
+	Recv() (*RangeResponse, error)
+	grpc.ClientStream
+}
+
+type rangeRangeClient struct {
+	grpc.ClientStream
+}
+
+func (x *rangeRangeClient) Recv() (*RangeResponse, error) {
+	m := new(RangeResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// RangeServer is the server API for Range service.
+type RangeServer interface {
+	Range(*RangeRequest, Range_RangeServer) error
+}
+
+// UnimplementedRangeServer can be embedded to have forward compatible implementations.
+type UnimplementedRangeServer struct {
+}
+
+func (*UnimplementedRangeServer) Range(*RangeRequest, Range_RangeServer) error {
+	return status.Errorf(codes.Unimplemented, "method Range not implemented")
+}
+
+func RegisterRangeServer(s *grpc.Server, srv RangeServer) {
+	s.RegisterService(&_Range_serviceDesc, srv)
+}
+
+func _Range_Range_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(RangeRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(RangeServer).Range(m, &rangeRangeServer{stream})
+}
+
+type Range_RangeServer interface {
+	Send(*RangeResponse) error
+	grpc.ServerStream
+}
+
+type rangeRangeServer struct {
+	grpc.ServerStream
+}
+
+func (x *rangeRangeServer) Send(m *RangeResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _Range_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Range",
+	HandlerType: (*RangeServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Range",
+			Handler:       _Range_Range_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "iface.proto",
 }
