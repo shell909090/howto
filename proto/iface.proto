@@ -3,8 +3,9 @@ syntax = "proto3";
 package proto;
 option go_package = "./";
 
-service Add{
+service Add {
     rpc Add (AddRequest) returns (AddResponse) {}
+    rpc Sum (stream SumRequest) returns (SumResponse) {}
 }
 
 message AddRequest {
@@ -16,14 +17,37 @@ message AddResponse {
 	int32 n = 1;
 }
 
-service Range{
+message SumRequest {
+	int32 n = 1;
+}
+
+message SumResponse {
+	int32 n = 1;
+}
+
+service Range {
     rpc Range (RangeRequest) returns (stream RangeResponse) {}
 }
 
 message RangeRequest {
 	int32 n = 1;
+	int32 len = 2;
 }
 
 message RangeResponse {
 	int32 n = 1;
+}
+
+service Echo {
+    rpc Echo (stream EchoRequest) returns (stream EchoResponse) {}
+}
+
+message EchoRequest {
+	int32  n = 1;
+	string s = 2;
+}
+
+message EchoResponse {
+	int32  n = 1;
+	string s = 2;
 }

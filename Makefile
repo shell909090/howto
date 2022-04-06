@@ -19,8 +19,14 @@ run-srv:
 run-cli-add:
 	bin/cli 127.0.0.1:50053 add
 
+run-cli-sum:
+	bin/cli 127.0.0.1:50053 sum
+
 run-cli-range:
 	bin/cli 127.0.0.1:50053 range
+
+run-cli-echo:
+	bin/cli 127.0.0.1:50053 echo
 
 run-proxy:
 	bin/proxy :50052 127.0.0.1:50053

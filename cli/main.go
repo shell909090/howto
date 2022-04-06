@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -14,37 +15,116 @@ import (
 func proc_add(conn *grpc.ClientConn) {
 	c := pb.NewAddClient(conn)
 	ctx := context.Background()
-	req := &pb.AddRequest{A: 10, B: 20}
-	log.Printf("rpc call add: A: %d, B: %d", req.A, req.B)
-	resp, err := c.Add(ctx, req)
+	in := &pb.AddRequest{A: 10, B: 20}
+	log.Printf("rpc add call, A: %d, B: %d", in.A, in.B)
+	out, err := c.Add(ctx, in)
 	if err != nil {
-		log.Fatalf("could not get result: %v", err)
+		log.Fatalf("rpc add return failed: %v", err)
 	}
-	log.Printf("rpc add return, N: %d", resp.N)
+	log.Printf("rpc add return, N: %d", out.N)
+	return
+}
+
+func proc_sum(conn *grpc.ClientConn) {
+	c := pb.NewAddClient(conn)
+	ctx := context.Background()
+
+	log.Printf("rpc sum call")
+	sumcli, err := c.Sum(ctx)
+	if err != nil {
+		log.Fatalf("rpc sum failed: %v", err)
+	}
+
+	var i int32
+LOOP:
+	for i = 20; i < 30; i++ {
+		err = sumcli.Send(&pb.SumRequest{N: i})
+		switch err {
+		case nil:
+		case io.EOF:
+			break LOOP
+		default:
+			log.Fatalf("rpc sum stream send failed: %v", err)
+		}
+		log.Printf("rpc sum stream send, N: %d", i)
+	}
+
+	out, err := sumcli.CloseAndRecv()
+	if err != nil {
+		log.Fatalf("rpc sum return failed: %v", err)
+	}
+	log.Printf("rpc sum return, N: %d", out.N)
 	return
 }
 
 func proc_range(conn *grpc.ClientConn) {
 	c := pb.NewRangeClient(conn)
 	ctx := context.Background()
-	req := &pb.RangeRequest{N: 10}
-	log.Printf("rpc call range: N: %d", req.N)
-	resp, err := c.Range(ctx, req)
+	in := &pb.RangeRequest{N: 10, Len: 10}
+	log.Printf("rpc range call, N: %d", in.N)
+	rangecli, err := c.Range(ctx, in)
 	if err != nil {
-		log.Fatalf("could not get result: %v", err)
+		log.Fatalf("rpc range failed: %v", err)
 	}
 
+LOOP:
 	for {
-		recv, err := resp.Recv()
+		out, err := rangecli.Recv()
 		switch err {
 		case nil:
 		case io.EOF:
-			return
+			break LOOP
 		default:
-			log.Fatalf("could not get stream: %v", err)
+			log.Fatalf("rpc range stream recv failed: %v", err)
 		}
-		log.Printf("rpc range stream, N: %d", recv.N)
+		log.Printf("rpc range stream recv, N: %d", out.N)
 	}
+	return
+}
+
+func proc_echo(conn *grpc.ClientConn) {
+	c := pb.NewEchoClient(conn)
+	ctx := context.Background()
+
+	log.Printf("rpc echo call")
+	echocli, err := c.Echo(ctx)
+	if err != nil {
+		log.Fatalf("rpc echo failed: %v", err)
+	}
+	go proc_echo_recv(echocli)
+
+	var i int32
+LOOP:
+	for i = 10; i < 100; i += 10 {
+		in := &pb.EchoRequest{N: i, S: fmt.Sprintf("%d", i)}
+		err = echocli.Send(in)
+		switch err {
+		case nil:
+		case io.EOF:
+			break LOOP
+		default:
+			log.Fatalf("rpc echo stream send failed: %v", err)
+		}
+		log.Printf("rpc echo stream send, N: %d, S: %s", in.N, in.S)
+	}
+	log.Printf("rpc echo end")
+	return
+}
+
+func proc_echo_recv(echocli pb.Echo_EchoClient) {
+LOOP:
+	for {
+		out, err := echocli.Recv()
+		switch err {
+		case nil:
+		case io.EOF:
+			break LOOP
+		default:
+			log.Fatalf("rpc echo stream recv failed: %v", err)
+		}
+		log.Printf("rpc echo stream recv, N: %d, S: %s", out.N, out.S)
+	}
+	log.Printf("rpc echo stream end")
 	return
 }
 
@@ -62,8 +142,14 @@ func main() {
 	case "add":
 		proc_add(conn)
 
+	case "sum":
+		proc_sum(conn)
+
 	case "range":
 		proc_range(conn)
+
+	case "echo":
+		proc_echo(conn)
 
 	default:
 		log.Fatalf("unknown command: %s", os.Args[2])

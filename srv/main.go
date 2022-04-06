@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"net"
 	"os"
@@ -9,7 +10,6 @@ import (
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 type server struct{}
@@ -23,22 +23,71 @@ func (s *server) Add(ctx context.Context, in *pb.AddRequest) (out *pb.AddRespons
 	return
 }
 
+func (s *server) Sum(stream pb.Add_SumServer) (err error) {
+	log.Printf("rpc sum in")
+	var n int32
+	var in *pb.SumRequest
+
+LOOP:
+	for {
+		in, err = stream.Recv()
+		switch err {
+		case nil:
+		case io.EOF:
+			break LOOP
+		default:
+			log.Fatalf("rpc sum stream recv failed: %v", err)
+		}
+		log.Printf("rpc sum stream recv, N: %d", in.N)
+		n += in.N
+	}
+
+	err = stream.SendAndClose(&pb.SumResponse{N: n})
+	if err != nil {
+		log.Fatalf("rpc sum return failed: %v", err)
+	}
+	log.Printf("rpc sum out, N: %d", n)
+	return
+}
+
 func (s *server) Range(in *pb.RangeRequest, stream pb.Range_RangeServer) (err error) {
-	log.Printf("rpc range in, N: %d", in.N)
-	for i := in.N; i < in.N+10; i++ {
+	log.Printf("rpc range in, N: %d, len: %d", in.N, in.Len)
+	for i := in.N; i < in.N+in.Len; i++ {
 		err = stream.Send(&pb.RangeResponse{N: i})
 		if err != nil {
-			log.Printf("stream send failed: %d", i)
-			return
+			log.Fatalf("rpc range stream send failed: %v", err)
 		}
-		log.Printf("rpc range out, N: %d", i)
+		log.Printf("rpc range stream send, N: %d", i)
 	}
 	log.Printf("rpc range end")
 	return
 }
 
-// rpc ListFeatures(Rectangle) returns (stream Feature) {}
-// func (s *routeGuideServer) ListFeatures(rect *pb.Rectangle, stream pb.RouteGuide_ListFeaturesServer) error {
+func (s *server) Echo(stream pb.Echo_EchoServer) (err error) {
+	log.Printf("rpc echo in")
+	var in *pb.EchoRequest
+LOOP:
+	for {
+		in, err = stream.Recv()
+		switch err {
+		case nil:
+		case io.EOF:
+			break LOOP
+		default:
+			log.Fatalf("rpc echo stream recv failed: %v", err)
+		}
+		log.Printf("rpc echo stream recved, N: %d, S: %s", in.N, in.S)
+
+		out := &pb.EchoResponse{N: in.N + 1, S: in.S + "echo"}
+		err = stream.Send(out)
+		if err != nil {
+			log.Fatalf("rpc echo stream send failed: %v", err)
+		}
+		log.Printf("rpc echo stream sent, N: %d, S: %s", out.N, out.S)
+	}
+	log.Printf("rpc echo end")
+	return
+}
 
 func main() {
 	li, err := net.Listen("tcp", os.Args[1])
@@ -50,8 +99,9 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterAddServer(s, &server{})
 	pb.RegisterRangeServer(s, &server{})
+	pb.RegisterEchoServer(s, &server{})
 	// Register reflection service on gRPC server.
-	reflection.Register(s)
+	// reflection.Register(s)
 	if err := s.Serve(li); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
