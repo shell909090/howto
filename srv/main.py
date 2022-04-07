@@ -51,9 +51,7 @@ class Service(object):
             resp = pb2.EchoResponse(n=req.n+1, s=req.s+'python')
             logging.info(f'rpc echo stream sent, N: {resp.n}, S: {resp.s}')
             yield resp
-            print('ok')
         logging.info('rpc echo end')
-        print('end')
         return
 
 

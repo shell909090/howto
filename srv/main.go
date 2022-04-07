@@ -34,6 +34,7 @@ LOOP:
 		switch err {
 		case nil:
 		case io.EOF:
+			err = nil
 			break LOOP
 		default:
 			log.Fatalf("rpc sum stream recv failed: %v", err)
@@ -72,6 +73,7 @@ LOOP:
 		switch err {
 		case nil:
 		case io.EOF:
+			err = nil
 			break LOOP
 		default:
 			log.Fatalf("rpc echo stream recv failed: %v", err)

@@ -42,6 +42,7 @@ LOOP:
 		switch err {
 		case nil:
 		case io.EOF:
+			err = nil
 			break LOOP
 		default:
 			log.Fatalf("rpc sum stream send failed: %v", err)
@@ -73,6 +74,7 @@ LOOP:
 		switch err {
 		case nil:
 		case io.EOF:
+			err = nil
 			break LOOP
 		default:
 			log.Fatalf("rpc range stream recv failed: %v", err)
@@ -85,13 +87,15 @@ LOOP:
 func proc_echo(conn *grpc.ClientConn) {
 	c := pb.NewEchoClient(conn)
 	ctx := context.Background()
+	waitc := make(chan interface{})
 
 	log.Printf("rpc echo call")
 	echocli, err := c.Echo(ctx)
 	if err != nil {
 		log.Fatalf("rpc echo failed: %v", err)
 	}
-	go proc_echo_recv(echocli)
+	go proc_echo_recv(echocli, waitc)
+	<-waitc
 
 	var i int32
 LOOP:
@@ -101,30 +105,37 @@ LOOP:
 		switch err {
 		case nil:
 		case io.EOF:
+			err = nil
 			break LOOP
 		default:
 			log.Fatalf("rpc echo stream send failed: %v", err)
 		}
 		log.Printf("rpc echo stream send, N: %d, S: %s", in.N, in.S)
 	}
+	echocli.CloseSend()
+	<-waitc
 	log.Printf("rpc echo end")
 	return
 }
 
-func proc_echo_recv(echocli pb.Echo_EchoClient) {
+func proc_echo_recv(echocli pb.Echo_EchoClient, waitc chan interface{}) {
+	waitc <- nil
 LOOP:
 	for {
 		out, err := echocli.Recv()
 		switch err {
 		case nil:
 		case io.EOF:
+			err = nil
 			break LOOP
 		default:
+			fmt.Printf("%s", err.Error())
 			log.Fatalf("rpc echo stream recv failed: %v", err)
 		}
 		log.Printf("rpc echo stream recv, N: %d, S: %s", out.N, out.S)
 	}
 	log.Printf("rpc echo stream end")
+	waitc <- nil
 	return
 }
 
