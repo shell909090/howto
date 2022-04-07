@@ -1,2 +1,5 @@
 bin/
 vendor/
+proto/*.py
+proto/*.go
+__pycache__

@@ -78,7 +78,7 @@ LOOP:
 		}
 		log.Printf("rpc echo stream recved, N: %d, S: %s", in.N, in.S)
 
-		out := &pb.EchoResponse{N: in.N + 1, S: in.S + "echo"}
+		out := &pb.EchoResponse{N: in.N + 1, S: in.S + "golang"}
 		err = stream.Send(out)
 		if err != nil {
 			log.Fatalf("rpc echo stream send failed: %v", err)

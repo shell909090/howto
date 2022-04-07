@@ -13,7 +13,7 @@ It has four functions inside.
 
 # build and run
 
-1. To update proto stub code: `make build-proto`
+1. To update proto stub code: `make proto/iface.pb.go`, `make proto/iface_pb2.py`
 2. To download modules to vendor: `go mod vendor`
 3. To build server: `make build-srv`
 4. To build client: `make build-cli`
@@ -31,3 +31,4 @@ Four pcap files inside, captured between golang client to golang server rpc call
 
 1. [gRPC使用](https://zhuanlan.zhihu.com/p/358727696)
 2. [Basics tutorial](https://grpc.io/docs/languages/go/basics/#bidirectional-streaming-rpc-1)
+3. [Implementing gRPC In Python: A Step-by-step Guide](https://www.velotio.com/engineering-blog/grpc-implementation-using-python)
