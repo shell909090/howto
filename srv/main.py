@@ -7,7 +7,6 @@
 @license: BSD-3-clause
 '''
 import sys
-import time
 import logging
 from os import path
 sys.path.append(path.abspath(path.join(path.dirname(__file__), '../proto/')))
@@ -62,7 +61,7 @@ def main():
     pb2_grpc.add_AddServicer_to_server(svc, server)
     pb2_grpc.add_RangeServicer_to_server(svc, server)
     pb2_grpc.add_EchoServicer_to_server(svc, server)
-    server.add_insecure_port('[::]:50053')
+    server.add_insecure_port(sys.argv[1])
     server.start()
     server.wait_for_termination()
 

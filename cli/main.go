@@ -81,6 +81,7 @@ LOOP:
 		}
 		log.Printf("rpc range stream recv, N: %d", out.N)
 	}
+	log.Printf("rpc range end")
 	return
 }
 

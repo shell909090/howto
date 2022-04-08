@@ -19,6 +19,9 @@ build-proxy:
 run-srv:
 	bin/srv :50053
 
+run-pysrv:
+	python3 srv/main.py '[::]:50053'
+
 run-cli-add:
 	bin/cli 127.0.0.1:50053 add
 
@@ -30,6 +33,18 @@ run-cli-range:
 
 run-cli-echo:
 	bin/cli 127.0.0.1:50053 echo
+
+run-pycli-add:
+	python3 cli/main.py 127.0.0.1:50053 add
+
+run-pycli-sum:
+	python3 cli/main.py 127.0.0.1:50053 sum
+
+run-pycli-range:
+	python3 cli/main.py 127.0.0.1:50053 range
+
+run-pycli-echo:
+	python3 cli/main.py 127.0.0.1:50053 echo
 
 run-proxy:
 	bin/proxy :50052 127.0.0.1:50053
