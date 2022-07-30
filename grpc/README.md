@@ -11,6 +11,13 @@ It has four functions inside.
 * Range: server stream.
 * Echo: bidirectional stream.
 
+# requirement
+
+* protoc: [Protocol Buffer Compiler Installation](https://grpc.io/docs/protoc-installation/)
+* Go plugins: [Quick start](https://grpc.io/docs/languages/go/quickstart/)
+* Python Plugins: [Quick start](https://grpc.io/docs/languages/python/quickstart/)
+  * `pip3 install grpcio grpcio-tools`
+
 # build and run
 
 1. To update proto stub code: `make proto/iface.pb.go`, `make proto/iface_pb2.py`

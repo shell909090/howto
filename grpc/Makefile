@@ -5,15 +5,15 @@ proto/iface_pb2.py:
 	python3 -m grpc_tools.protoc --proto_path=proto  --python_out=proto --grpc_python_out=proto proto/iface.proto
 
 build-srv: proto/iface.pb.go
-	docker run --rm -v "$$PWD":/srv/ -w /srv/ gobuilder go build -o bin/srv grpctest/srv
+	docker run --rm -v "$$PWD":/srv/ -w /srv/ golang go build -o bin/srv grpctest/srv
 	sudo chown -R shell:shell bin/
 
 build-cli: proto/iface.pb.go
-	docker run --rm -v "$$PWD":/srv/ -w /srv/ gobuilder go build -o bin/cli grpctest/cli
+	docker run --rm -v "$$PWD":/srv/ -w /srv/ golang go build -o bin/cli grpctest/cli
 	sudo chown -R shell:shell bin/
 
 build-proxy:
-	docker run --rm -v "$$PWD":/srv/ -w /srv/ gobuilder go build -o bin/proxy grpctest/proxy
+	docker run --rm -v "$$PWD":/srv/ -w /srv/ golang go build -o bin/proxy grpctest/proxy
 	sudo chown -R shell:shell bin/
 
 run-srv:
