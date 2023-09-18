@@ -1,6 +1,6 @@
-# protocol example and test
+# how to
 
-The purpose of this project is to demonstrate the usage of some protocols, and test how it works.
+Quick tour to how to use something.
 
 * [grpc](grpc)
 * [websocket](websocket)
