@@ -1,0 +1,32 @@
+http:
+  services:
+    a:
+      loadBalancer:
+        servers:
+          - url: "https://a.target/"
+    b:
+      loadBalancer:
+        servers:
+          - url: "https://b.target/"
+
+  routers:
+    a:
+      rule: "Host(`a.root`)"
+      service: a
+      middlewares:
+      - a
+    b:
+      rule: "Host(`b.root`)"
+      service: b
+      middlewares:
+      - b
+
+  middlewares:
+    a:
+      Headers:
+        customRequestHeaders:
+          Host: a.target
+    b:
+      Headers:
+        customRequestHeaders:
+          Host: b.target

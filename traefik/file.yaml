@@ -1,0 +1,17 @@
+log:
+  level: INFO
+
+entryPoints:
+  web:
+   address: ":80"
+
+api:
+  dashboard: true
+  insecure: true
+
+accessLog: {}
+
+providers:
+  file:
+    watch: true
+    directory: /etc/traefik/conf.d/
