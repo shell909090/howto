@@ -1,0 +1,11 @@
+http://a.root {
+  reverse_proxy https://a.target {
+    header_up Host a.target
+  }
+}
+
+http://b.root {
+  reverse_proxy https://b.target {
+    header_up Host b.target
+  }
+}
