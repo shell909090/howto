@@ -2,6 +2,8 @@
 
 Quick tour to how to use something.
 
+# stream lib
+
 * [grpc](grpc)
 * [websocket](websocket)
 
@@ -19,6 +21,10 @@ traefik和各种系统的集成最佳（docker/k8s/etc）。envoy适合api重编
 
 * [rabbitmq](rabbitmq)
 
-# DL
+# OCR
+
+* [tesseract](tesseract)
+
+# ASR
 
 * [faster-whisper](faster-whisper)
