@@ -18,3 +18,7 @@ traefik和各种系统的集成最佳（docker/k8s/etc）。envoy适合api重编
 # queue
 
 * [rabbitmq](rabbitmq)
+
+# DL
+
+* [faster-whisper](faster-whisper)
