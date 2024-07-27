@@ -2,6 +2,10 @@
 
 Quick tour to how to use something.
 
+# protocol
+
+* [http2](http2)
+
 # stream lib
 
 * [grpc](grpc)
