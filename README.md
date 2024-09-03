@@ -38,6 +38,11 @@ traefik和各种系统的集成最佳（docker/k8s/etc）。envoy适合api重编
 
 * [http2](http2)
 
+# performance
+
+* [profile-flame](prof-flame)
+* [profile-memory](prof-mem)
+
 # ebpf
 
 * [bcc](ebpf/bcc.md)
