@@ -18,6 +18,7 @@ Quick tour to how to use something.
 # queue
 
 * [rabbitmq](rabbitmq)
+* [mosquitto](mosquitto)
 
 # stream lib
 
