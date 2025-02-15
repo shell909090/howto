@@ -7,7 +7,7 @@ sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt-get update
 
 # install cudnn8
-sudo apt-get install -y libcudnn8
+sudo apt-get install -y libcudnn9
 
 # install cublas
 sudo apt-get install -y libcublas-12-2
