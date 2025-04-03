@@ -10,6 +10,7 @@ Quick tour to how to use something.
 
 * [faster-whisper](faster-whisper)
 * [whisper](whisper)
+* [sensevoice](sensevoice)
 
 # db
 
