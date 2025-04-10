@@ -48,3 +48,7 @@ traefik和各种系统的集成最佳（docker/k8s/etc）。envoy适合api重编
 # ebpf
 
 * [bcc](ebpf/bcc.md)
+
+# openai
+
+* [tools](openai_tools)
