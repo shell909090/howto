@@ -36,60 +36,6 @@ def setup_logging(lv):
     logger.setLevel(lv)
 
 
-def get_text_from_url(url, raise_status=False):
-    from bs4 import BeautifulSoup
-    logging.info(f'get content from url: {url}')
-    resp = requests.get(url, headers=headers)
-    if raise_status:
-        resp.raise_for_status()
-    elif resp.status_code >= 400:
-        logging.error(f'error when get content from url: {url} {resp.status_code}')
-        return
-    doc = BeautifulSoup(resp.text, 'html.parser')
-    return doc.get_text('\n', strip=True)
-
-
-def get_text_from_urls(urls, concurrent=5, raise_status=False):
-    pool = Pool(concurrent)
-    docs = pool.imap(lambda u: get_text_from_url(u, raise_status), urls)
-    return [doc for doc in docs if doc]
-
-
-def duckduckgo(q, max_results=5):
-    from duckduckgo_search import DDGS
-    results = DDGS().text(q, max_results=max_results)
-    return [r['href'] for r in results]
-
-
-def fmt_ollama_stat(data):
-    # 将所有浮点数输出改为小数点后两位格式
-    duration_total = data['total_duration'] / 10**9
-    prompt_eval_count = data['prompt_eval_count']
-    prompt_eval_duration = data['prompt_eval_duration'] / 10**9
-    eval_count = data['eval_count']
-    eval_duration = data['eval_duration'] / 10**9
-    eval_rate = eval_count / eval_duration
-    return f'total_duration: {duration_total:.2f}, prompt_eval_count: {prompt_eval_count}, prompt_eval_duration: {prompt_eval_duration:.2f}, eval_count: {eval_count}, eval_duration: {eval_duration:.2f}, eval_rate: {eval_rate:.2f}'
-
-
-def ollama_chat(messages):
-    logging.info(f'send request to ollama: {args.ollama_endpoint} {args.model}')
-    resp = requests.post(f'{args.ollama_endpoint}/api/chat', json={
-        'model': args.model,
-        'stream': False,
-        'messages': messages,
-        'options': {
-            'num_ctx': args.max_context_length,
-            'num_batch': 16,
-        },
-    })
-    resp.raise_for_status()
-    logging.info('received response from ollama')
-    data = resp.json()
-    logging.info(fmt_ollama_stat(data))
-    return data['message']['content']
-
-
 def fmt_openai_stat(usage):
     return f"total_tokens: {usage['total_tokens']}, prompt_tokens: {usage['prompt_tokens']}, completion_tokens: {usage['completion_tokens']}"
 
@@ -114,19 +60,6 @@ def openai_chat(messages, tools=None):
     data = resp.json()
     logging.info(fmt_openai_stat(data['usage']))
     return data
-
-
-re_think = re.compile('<think>.*</think>', re.DOTALL)
-def ai_chat(messages, remove_think=False):
-    if args.ollama_endpoint:
-        response = ollama_chat(messages)
-    else:
-        response = openai_chat(messages)
-    if args.debug:
-        logging.debug(f'response: {response}')
-    if remove_think:
-        response = re_think.sub('', response)
-    return response
 
 
 def main():
