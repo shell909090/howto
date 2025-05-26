@@ -57,7 +57,7 @@ def proc_file(fn):
     st = time.time()
 
     try:
-        segments, info = model.transcribe(fn, beam_size=5)
+        segments, info = model.transcribe(fn, beam_size=5, **options)
         logging.info("Detected language '%s' with probability %f" % (info.language, info.language_probability))
 
         cached = []
@@ -88,8 +88,17 @@ def main():
     parser.add_argument('--device', '-d', default='cpu')
     parser.add_argument('--compute-type', '-ct', default='int8')
     parser.add_argument('--recursion', '-R', action='store_true')
+    parser.add_argument('--language', '-lg')
+    parser.add_argument('--multilingual', '-ml', action='store_true')
     parser.add_argument('files', nargs='*', type=str)
     args = parser.parse_args()
+
+    global options
+    options = {}
+    if args.language:
+        options['language'] = args.language
+    if args.multilingual:
+        options['multilingual'] = True
 
     global model
     model = WhisperModel(args.model, device=args.device, compute_type=args.compute_type)
